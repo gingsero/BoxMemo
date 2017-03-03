@@ -6,4 +6,11 @@
 
     <!-- background color -->
     <color name="colorBackgroud">#FFFFFFFF</color>
+
+    <!-- main nav bar color -->
+    <color name="colorNavBackground">#FF6895dd</color>
+
+    <color name="colorMainBackground">#FFe8e8e8</color>
+
+
 </resources>
