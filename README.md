@@ -7,3 +7,6 @@ Just Test Anroid Application
 4. DB CRUD
 5. Add external library
 6. network
+7. sharedpreferenced
+8. Async(Thread - Future, Async, Promise, Observable)
+9. 
