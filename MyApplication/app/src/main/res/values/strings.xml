@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GitMemo</string>
+    <string name="app_name">GitHub Image Board</string>
 
     <string name="action_search">Menu</string>
     <string name="action_settings">Setting</string>

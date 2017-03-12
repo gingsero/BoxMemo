@@ -15,7 +15,7 @@ public class IntroActivity extends Activity {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(IntroActivity.this, LoginActivity.class);
+                Intent intent = new Intent(IntroActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }

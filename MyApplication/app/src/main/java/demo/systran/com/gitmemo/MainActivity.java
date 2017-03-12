@@ -10,7 +10,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /* login page or join */
+        /* 게시판 만들기 */
 
     }
 
