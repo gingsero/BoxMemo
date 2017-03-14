@@ -1,9 +1,11 @@
-package demo.systran.com.gitmemo;
+package demo.systran.com.gitmemo.view.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import demo.systran.com.gitmemo.R;
 
 public class IntroActivity extends Activity {
 

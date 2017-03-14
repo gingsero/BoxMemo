@@ -1,7 +1,9 @@
-package demo.systran.com.gitmemo;
+package demo.systran.com.gitmemo.view.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import demo.systran.com.gitmemo.R;
 
 public class MainActivity extends AppCompatActivity {
 

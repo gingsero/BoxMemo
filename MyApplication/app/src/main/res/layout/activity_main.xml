@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorBackgroud"
-    tools:context="demo.systran.com.gitmemo.MainActivity">
+    tools:context="demo.systran.com.gitmemo.view.activity.MainActivity">
 
     <!-- Navigation Area -->
     <RelativeLayout
