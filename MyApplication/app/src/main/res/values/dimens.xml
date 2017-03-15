@@ -8,7 +8,7 @@
 
     <!-- Text font size -->
     <dimen name="font_size_subtitle">30dp</dimen>
-    <dimen name="font_size_submenu">20</dimen>
+    <dimen name="font_size_submenu">20dp</dimen>
     <dimen name="font_size_bold">15dp</dimen>
     <dimen name="font_size_normal">10dp</dimen>
 
