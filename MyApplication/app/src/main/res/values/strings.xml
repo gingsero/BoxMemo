@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">GitHub Image Board</string>
+    <string name="app_name">Private Board</string>
+    <string name="version_name">0.0.1</string>
 
     <string name="action_search">Menu</string>
     <string name="action_settings">Setting</string>

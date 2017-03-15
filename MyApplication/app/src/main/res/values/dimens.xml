@@ -6,5 +6,11 @@
     <!-- Main icon dimen -->
     <dimen name="main_area_margin_all">15dp</dimen> <!-- left, right, top, bottom -->
 
+    <!-- Text font size -->
+    <dimen name="font_size_subtitle">30dp</dimen>
+    <dimen name="font_size_submenu">20</dimen>
+    <dimen name="font_size_bold">15dp</dimen>
+    <dimen name="font_size_normal">10dp</dimen>
+
 </resources>
 

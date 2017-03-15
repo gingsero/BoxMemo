@@ -1,23 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_intro"
+    android:id="@+id/intro_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/colorBackgroud"
+    android:background="@drawable/intro_background"
     tools:context="demo.systran.com.gitmemo.view.activity.IntroActivity">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:text="@string/app_name"
-        android:textSize="48dp"
-        />
+        android:paddingTop="@dimen/activity_vertical_margin">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:background="@drawable/intro_main_line"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/intro_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:gravity="right"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/app_name"
+            android:textSize="@dimen/font_size_subtitle"
+            android:textStyle="bold"
+            android:fontFamily="casual"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/version_name"
+            android:textSize="@dimen/font_size_normal"
+            android:textStyle="bold"
+            android:fontFamily="casual"
+            />
+
+    </LinearLayout>
+
 
 
 </RelativeLayout>
