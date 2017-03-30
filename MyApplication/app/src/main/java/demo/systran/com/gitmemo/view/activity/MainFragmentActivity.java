@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 
 import demo.systran.com.gitmemo.R;
 import demo.systran.com.gitmemo.view.fragment.ABestFragment;
+import demo.systran.com.gitmemo.view.fragment.AdminFragment;
 
 public class MainFragmentActivity extends FragmentActivity {
     private String TAG= "MainFragmentActivity";
@@ -44,24 +45,46 @@ public class MainFragmentActivity extends FragmentActivity {
     View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             switch (v.getId()){
                 case R.id.fragment_button_one :
                     fragment= new ABestFragment();
+                    transaction.replace(R.id.frame_layout, fragment, "ABEST");
                     break;
                 case R.id.fragment_button_two :
-
+                    fragment = new AdminFragment();
+                    transaction.replace(R.id.frame_layout, fragment, "ADMIN");
                     break;
                 case R.id.fragment_button_three :
 
                     break;
             }
 
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.frame_layout, fragment);
+
+
             transaction.commit();
         }
     };
+
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        MyLog.d(TAG, "onActivityResult()");
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        BusObject busObject = new BusObject();
+//        busObject.setRequestCode(requestCode);
+//        busObject.setResultCode(resultCode);
+//        busObject.setData(data);
+//
+//        AdminFragment.onActivityResultEvent()
+//
+//        Fragment fragment = getSupportFragmentManager().findFragmentByTag("ADMIN");
+//        if (fragment != null) {
+//            ((AdminFragment) fragment).onActivityResult(requestCode, resultCode, data);
+//        }
+//    }
+
 
 
 }
