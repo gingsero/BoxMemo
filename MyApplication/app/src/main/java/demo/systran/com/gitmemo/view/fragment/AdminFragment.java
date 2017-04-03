@@ -22,6 +22,7 @@ import java.io.File;
 
 import demo.systran.com.gitmemo.R;
 import demo.systran.com.gitmemo.utility.MyLog;
+import demo.systran.com.gitmemo.utility.SharedPreferenceData;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +38,8 @@ public class AdminFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private SharedPreferenceData mSharedPreference;
 
     private Button load_button = null;
     private Button save_button = null;
@@ -76,6 +79,17 @@ public class AdminFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+//        if (context instanceof OnFragmentInteractionListener) {
+//            mListener = (OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -83,6 +97,9 @@ public class AdminFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -113,15 +130,25 @@ public class AdminFragment extends Fragment {
         }
     }
 
+
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
+    public void onResume() {
+        super.onResume();
+        mSharedPreference = new SharedPreferenceData(getContext());
+        String admin_title = mSharedPreference.getDataFromSharedPreferences("ADMIN_FRAGMENT_TITLE", "");
+        String admin_description = mSharedPreference.getDataFromSharedPreferences("ADMIN_FRAGMENT_DESCRIPTION", "");
+
+        title_editbox.setText(admin_title);
+        desc_editbox.setText(admin_description);
+
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mSharedPreference.putDataToSharedPreferences("ADMIN_FRAGMENT_TITLE", title_editbox.getText().toString());
+        mSharedPreference.putDataToSharedPreferences("ADMIN_FRAGMENT_DESCRIPTION", desc_editbox.getText().toString());
     }
 
     @Override
