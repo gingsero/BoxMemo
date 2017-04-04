@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="CREATE_TABLE">
+        CREATE
+        TABLE #table_name#
+        (
+        product_index text primary key autoincrement,
+        product_title text not null,
+        product_description text,
+        product_reg_date text
+        )
+    </string>
+
+    <string name="SELECT_PRODUCT_ALL">
+
+
+    </string>
+
+
+</resources>
