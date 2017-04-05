@@ -122,7 +122,7 @@
                 android:id="@+id/fragment_admin_db_update_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="UPDATE"
+                android:text="EZTALKY"
                 />
             <Button
                 android:id="@+id/fragment_admin_db_select_button"

@@ -248,6 +248,8 @@ public class AdminFragment extends Fragment {
                     break;
 
                 case R.id.fragment_admin_db_update_button:
+                    String updateResult = serviceController.updateData();
+                    Toast.makeText(mContext, "updateData complete : " + updateResult, Toast.LENGTH_SHORT).show();
                     break;
 
                 case R.id.fragment_admin_db_select_button:

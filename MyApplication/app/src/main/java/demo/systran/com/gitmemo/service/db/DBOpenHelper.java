@@ -15,21 +15,18 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     public DBOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, null, version);
-        Log.d("KKKK", "2");
         this.mContext = context;
     }
     // 생성된 DB가 없을 경우에 한번만 호출됨
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "onCreate()");
-        Log.d("KKKK", "3");
         db.execSQL("CREATE TABLE bestproduct (product_index integer primary key autoincrement, product_title text not null, product_description text, product_reg_date text);");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.d(TAG, "onUpgrade()");
-        Log.d("KKKK", "7");
 
         if(oldVersion==newVersion){
             Log.d(TAG, "oldVersion==newVersion : true");

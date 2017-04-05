@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
 import demo.systran.com.gitmemo.R;
 import demo.systran.com.gitmemo.callback.CallBackInterface;
@@ -23,7 +22,6 @@ public class IntroActivity extends Activity {
         dbCallBack = new CallBackInterface(){
             @Override
             public void callback() {
-                Log.d("KKKK", "8");
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
