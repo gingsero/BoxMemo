@@ -3,6 +3,7 @@ package demo.systran.com.gitmemo.view.fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import java.io.File;
 
 import demo.systran.com.gitmemo.R;
+import demo.systran.com.gitmemo.service.ServiceController;
 import demo.systran.com.gitmemo.utility.MyLog;
 import demo.systran.com.gitmemo.utility.SharedPreferenceData;
 
@@ -39,16 +41,24 @@ public class AdminFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private Context mContext = null;
     private SharedPreferenceData mSharedPreference;
 
     private Button load_button = null;
     private Button save_button = null;
     private Button cancel_button = null;
 
+    private Button insert_button = null;
+    private Button update_button = null;
+    private Button select_button = null;
+    private Button cnt_button = null;
+
     private EditText title_editbox = null;
     private EditText desc_editbox = null;
     private TextView load_image_name = null;
+    private TextView db_result_editbox = null;
 
+    ServiceController serviceController = null;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -81,6 +91,7 @@ public class AdminFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        this.mContext = context;
 //        if (context instanceof OnFragmentInteractionListener) {
 //            mListener = (OnFragmentInteractionListener) context;
 //        } else {
@@ -110,14 +121,26 @@ public class AdminFragment extends Fragment {
         save_button = (Button) v.findViewById(R.id.fragment_admin_save_button);
         cancel_button = (Button) v.findViewById(R.id.fragment_admin_cancel_button);
 
+        insert_button = (Button) v.findViewById(R.id.fragment_admin_db_insert_button);
+        update_button = (Button) v.findViewById(R.id.fragment_admin_db_update_button);
+        select_button = (Button) v.findViewById(R.id.fragment_admin_db_select_button);
+        cnt_button = (Button) v.findViewById(R.id.fragment_admin_db_count_button);
+
+
         title_editbox = (EditText) v.findViewById(R.id.fragment_admin_title);
         desc_editbox = (EditText) v.findViewById(R.id.fragment_admin_description);
-        load_image_name = (TextView) v.findViewById(R.id.fragment_admin_image_name) ;
+        load_image_name = (TextView) v.findViewById(R.id.fragment_admin_image_name);
+        db_result_editbox = (TextView) v.findViewById(R.id.fragment_admin_db_result);
+
+        serviceController = new ServiceController(mContext);
 
         load_button.setOnClickListener(mClickListener);
         save_button.setOnClickListener(mClickListener);
         cancel_button.setOnClickListener(mClickListener);
-
+        insert_button.setOnClickListener(mClickListener);
+        update_button.setOnClickListener(mClickListener);
+        select_button.setOnClickListener(mClickListener);
+        cnt_button.setOnClickListener(mClickListener);
 
 
         return v;
@@ -207,6 +230,8 @@ public class AdminFragment extends Fragment {
                             .show();
                     break;
                 case R.id.fragment_admin_save_button:
+
+
                     break;
                 case R.id.fragment_admin_cancel_button:
                     title_editbox.setText("");
@@ -215,6 +240,38 @@ public class AdminFragment extends Fragment {
                     Toast.makeText(getContext(), "작성된 내용을 모두 삭제하였습니다.", Toast.LENGTH_SHORT).show();
                     break;
 
+                case R.id.fragment_admin_db_insert_button:
+                    String prdTitle = title_editbox.getText().toString();
+                    String prdDescription = desc_editbox.getText().toString();
+                    serviceController.insertData(prdTitle, prdDescription);
+                    Toast.makeText(mContext, "insertData complete", Toast.LENGTH_SHORT).show();
+                    break;
+
+                case R.id.fragment_admin_db_update_button:
+                    break;
+
+                case R.id.fragment_admin_db_select_button:
+                    Log.d(TAG, "fragment_admin_db_select_button click");
+                    Cursor c = serviceController.selectDataAll();
+                    String result = null;
+                    int columnCnt = c.getColumnCount();
+                    Log.d(TAG, "columnCnt : " + columnCnt);
+                    c.moveToFirst();
+                    result = c.getString(0) + " " + c.getString(1) + " " + c.getString(2);
+//                    for(int i = 0 ; i < columnCnt ; i++){
+//                        Log.d(TAG, "for() : " + i + ", " + c.getColumnName(i));
+//                        result += c.
+//                        Log.d(TAG, "result : " + result);
+//                    }
+
+                    db_result_editbox.setText(result);
+
+
+                    break;
+                case R.id.fragment_admin_db_count_button:
+                    int count = serviceController.selectDataCount();
+                    Toast.makeText(mContext, "" + count, Toast.LENGTH_SHORT).show();
+                    break;
             }
         }
     };

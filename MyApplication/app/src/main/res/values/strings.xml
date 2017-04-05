@@ -19,6 +19,8 @@
         completions."
     </string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="db_name">product.db</string>
+    <string name="db_table_name">bestproduct</string>
 </resources>

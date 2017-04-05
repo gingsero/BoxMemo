@@ -9,6 +9,7 @@ import android.util.Log;
 import demo.systran.com.gitmemo.R;
 import demo.systran.com.gitmemo.callback.CallBackInterface;
 import demo.systran.com.gitmemo.service.ServiceController;
+import demo.systran.com.gitmemo.utility.MyLog;
 
 public class IntroActivity extends Activity {
     private String TAG = "IntroActivity";
@@ -22,7 +23,7 @@ public class IntroActivity extends Activity {
         dbCallBack = new CallBackInterface(){
             @Override
             public void callback() {
-
+                Log.d("KKKK", "8");
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
@@ -42,8 +43,8 @@ public class IntroActivity extends Activity {
     }
 
     private void initializeDb(CallBackInterface callBackInterface){
-        Log.d(TAG, "initializeDb()");
-        ServiceController serviceController = new ServiceController(this, callBackInterface);
-        serviceController.initializeDbController();
+        MyLog.d(TAG, "initializeDb()");
+        ServiceController serviceController = new ServiceController(this);
+        serviceController.initializeDb(callBackInterface);
     }
 }

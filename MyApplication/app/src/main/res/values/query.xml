@@ -2,7 +2,7 @@
 <resources>
     <string name="CREATE_TABLE">
         CREATE
-        TABLE #table_name#
+        TABLE bestproduct
         (
         product_index text primary key autoincrement,
         product_title text not null,
@@ -11,9 +11,25 @@
         )
     </string>
 
+    <string name="INSERT_PRODUCT">
+        INSERT INTO bestproduct
+        (
+        product_index,
+        product_title,
+        product_description,
+        product_reg_date
+        )
+        VALUES
+        (
+        0,
+        배기팬츠,
+        올 봄을 강타할 바지,
+        date()
+        )
+    </string>
+
     <string name="SELECT_PRODUCT_ALL">
-
-
+        SELECT * FROM bestproduct
     </string>
 
 
