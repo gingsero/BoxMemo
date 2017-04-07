@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,6 +24,7 @@ import java.io.File;
 
 import demo.systran.com.gitmemo.R;
 import demo.systran.com.gitmemo.service.ServiceController;
+import demo.systran.com.gitmemo.service.db.DBOpenHelper;
 import demo.systran.com.gitmemo.utility.MyLog;
 import demo.systran.com.gitmemo.utility.SharedPreferenceData;
 
@@ -44,14 +46,19 @@ public class AdminFragment extends Fragment {
     private Context mContext = null;
     private SharedPreferenceData mSharedPreference;
 
-    private Button load_button = null;
-    private Button save_button = null;
-    private Button cancel_button = null;
+    private Button new_db_button = null;
+//    private Button update_button = null;
+//    private Button select_button = null;
+//    private Button cnt_button = null;
 
     private Button insert_button = null;
     private Button update_button = null;
     private Button select_button = null;
     private Button cnt_button = null;
+
+    private Button load_button = null;
+    private Button save_button = null;
+    private Button cancel_button = null;
 
     private EditText title_editbox = null;
     private EditText desc_editbox = null;
@@ -59,6 +66,9 @@ public class AdminFragment extends Fragment {
     private TextView db_result_editbox = null;
 
     ServiceController serviceController = null;
+
+    DBOpenHelper openHelper = null;
+    SQLiteDatabase mDatabase = null;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -117,15 +127,16 @@ public class AdminFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_admin, container, false);
 
-        load_button = (Button) v.findViewById(R.id.fragment_admin_load_button);
-        save_button = (Button) v.findViewById(R.id.fragment_admin_save_button);
-        cancel_button = (Button) v.findViewById(R.id.fragment_admin_cancel_button);
+        new_db_button = (Button) v.findViewById(R.id.fragment_admin_db_new);
 
         insert_button = (Button) v.findViewById(R.id.fragment_admin_db_insert_button);
         update_button = (Button) v.findViewById(R.id.fragment_admin_db_update_button);
         select_button = (Button) v.findViewById(R.id.fragment_admin_db_select_button);
         cnt_button = (Button) v.findViewById(R.id.fragment_admin_db_count_button);
 
+        load_button = (Button) v.findViewById(R.id.fragment_admin_load_button);
+        save_button = (Button) v.findViewById(R.id.fragment_admin_save_button);
+        cancel_button = (Button) v.findViewById(R.id.fragment_admin_cancel_button);
 
         title_editbox = (EditText) v.findViewById(R.id.fragment_admin_title);
         desc_editbox = (EditText) v.findViewById(R.id.fragment_admin_description);
@@ -134,6 +145,8 @@ public class AdminFragment extends Fragment {
 
         serviceController = new ServiceController(mContext);
 
+
+        new_db_button.setOnClickListener(mClickListener);
         load_button.setOnClickListener(mClickListener);
         save_button.setOnClickListener(mClickListener);
         cancel_button.setOnClickListener(mClickListener);
@@ -230,8 +243,6 @@ public class AdminFragment extends Fragment {
                             .show();
                     break;
                 case R.id.fragment_admin_save_button:
-
-
                     break;
                 case R.id.fragment_admin_cancel_button:
                     title_editbox.setText("");
@@ -240,39 +251,47 @@ public class AdminFragment extends Fragment {
                     Toast.makeText(getContext(), "작성된 내용을 모두 삭제하였습니다.", Toast.LENGTH_SHORT).show();
                     break;
 
+
+//              =========================================
+                case R.id.fragment_admin_db_new :
+//                    serviceController.createDatabaseNew();
+//                    Toast.makeText(getContext(), "student_tmp.db & elementarystudent table이 생성되었습니다.", Toast.LENGTH_SHORT).show();
+                    break;
+
+
                 case R.id.fragment_admin_db_insert_button:
-                    String prdTitle = title_editbox.getText().toString();
-                    String prdDescription = desc_editbox.getText().toString();
-                    serviceController.insertData(prdTitle, prdDescription);
-                    Toast.makeText(mContext, "insertData complete", Toast.LENGTH_SHORT).show();
+                    serviceController.createDatabase();
+                    serviceController.createDatabaseNew();
+                    Toast.makeText(getContext(), "student.db & student_tmp.db이 생성되었습니다.", Toast.LENGTH_SHORT).show();
                     break;
 
                 case R.id.fragment_admin_db_update_button:
-                    String updateResult = serviceController.updateData();
-                    Toast.makeText(mContext, "updateData complete : " + updateResult, Toast.LENGTH_SHORT).show();
+                    String prdTitle = title_editbox.getText().toString();
+                    String prdDescription = desc_editbox.getText().toString();
+                    long insertResult = serviceController.insertData(prdTitle, prdDescription);
+                    if(insertResult==0){
+                        Toast.makeText(mContext, "insertData Success", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(mContext, "Fail", Toast.LENGTH_SHORT).show();
+                    }
                     break;
 
                 case R.id.fragment_admin_db_select_button:
-                    Log.d(TAG, "fragment_admin_db_select_button click");
                     Cursor c = serviceController.selectDataAll();
-                    String result = null;
-                    int columnCnt = c.getColumnCount();
-                    Log.d(TAG, "columnCnt : " + columnCnt);
-                    c.moveToFirst();
-                    result = c.getString(0) + " " + c.getString(1) + " " + c.getString(2);
-//                    for(int i = 0 ; i < columnCnt ; i++){
-//                        Log.d(TAG, "for() : " + i + ", " + c.getColumnName(i));
-//                        result += c.
-//                        Log.d(TAG, "result : " + result);
-//                    }
+                    StringBuffer sBuffer = new StringBuffer();
+                    Log.d(TAG, "columnCnt : " + c.getColumnCount());
 
-                    db_result_editbox.setText(result);
+                    while (c.moveToNext()){
+                        sBuffer.append(c.getString(0) + "\t" + c.getString(1) + "\n");
+                        // james 3412
+                        // karl 3403
+                    }
 
-
+                    db_result_editbox.setText(sBuffer.toString());
                     break;
                 case R.id.fragment_admin_db_count_button:
                     int count = serviceController.selectDataCount();
-                    Toast.makeText(mContext, "" + count, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "select cnt : " + count, Toast.LENGTH_SHORT).show();
                     break;
             }
         }

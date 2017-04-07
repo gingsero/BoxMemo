@@ -1,21 +1,14 @@
 package demo.systran.com.gitmemo.service;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
-import demo.systran.com.gitmemo.R;
-import demo.systran.com.gitmemo.callback.CallBackInterface;
 import demo.systran.com.gitmemo.service.db.DBOpenHelper;
-import demo.systran.com.gitmemo.utility.MyLog;
 
 /**
  * Created by dh on 2017-04-04.
@@ -25,49 +18,90 @@ public class ServiceController {
     private String TAG = "ServiceController";
 
     private Context mContext = null;
-    private CallBackInterface mCallBackInterface = null;
 
     private DBOpenHelper openHelper = null;
-    private static SQLiteDatabase mDatabase = null;
-    private static SQLiteDatabase mDatabase_ez = null;
+    private final String dbName = "student.db";
+    private final String tableName = "elementarystudent";
+    private String COL_1 = "ename";
+    private String COL_2 = "eclass";
+    private SQLiteDatabase mDatabase = null;
+    private SQLiteDatabase mDatabaseNew = null;
 
     public ServiceController(Context context){
         this.mContext = context;
 
-    }
+        String db_path = mContext.getFilesDir().getAbsolutePath() + "/" + dbName; // System Area DB path
+        Log.d(TAG, "db_path : " + db_path);
+        File file = new File(db_path);
+        if(file.isFile()){
+            if(mDatabase==null || !mDatabase.isOpen()) {
+                mDatabase = SQLiteDatabase.openDatabase(db_path, null, SQLiteDatabase.OPEN_READWRITE | SQLiteDatabase.NO_LOCALIZED_COLLATORS);
+            } else {
+                initializeDb();
+            }
+        } else {
 
-    public void initializeDb(CallBackInterface callBackInterface){
-        Log.d(TAG, "initializeDb()");
-        this.mCallBackInterface = callBackInterface;
-
-        openHelper = new DBOpenHelper(mContext, "product.db", null, 1); // DB생성
-        mDatabase = openHelper.getWritableDatabase(); // DB open
-        if(mDatabase!=null){ // DB가 존재함
-//            openHelper = new DBOpenHelper(mContext, "product.db", null, 2); // DB upGrade
-            openHelper.onUpgrade(mDatabase, 1, 2);
-            mCallBackInterface.callback();
-
-        } else { // DB가 없음
-
-            Toast.makeText(mContext, "DB가 존재합니다.", Toast.LENGTH_SHORT).show();
-            mCallBackInterface.callback();
         }
+
+
     }
 
-    public void insertData(String prdTitle, String prdDescription){
-        Log.d(TAG, "insertData()");
-//        mDatabase = openHelper.getWritableDatabase();
-        String sql = "INSERT INTO bestproduct(product_title, product_description, product_reg_date) VALUES"
-                + "('" + prdTitle
-                + "', '" + prdDescription
-                + "', '2017-04-05');";
-        mDatabase.execSQL(sql);
+    public void initializeDb(){ // 최초 한번만 실행
+        Log.d(TAG, "initializeDb()");
+
+        openHelper = new DBOpenHelper(mContext, dbName, null, 1); // DB생성
+        mDatabase = openHelper.getWritableDatabase(); // DB open
+//        if(mDatabase!=null){ // DB가 존재함
+////            openHelper = new DBOpenHelper(mContext, "product.db", null, 2); // DB upGrade
+//            openHelper.onUpgrade(mDatabase, 1, 2);
+//            mCallBackInterface.callback();
+//
+//        } else { // DB가 없음
+//
+//            Toast.makeText(mContext, "DB가 존재합니다.", Toast.LENGTH_SHORT).show();
+//            mCallBackInterface.callback();
+//        }
     }
 
-    public String updateData(){ // eztalky.db 생성 메소드
+//    ====================================
+    public void createDatabaseNew(){
+        openHelper = new DBOpenHelper(mContext, "student_tmp.db", null, 1); // DB생성
+        mDatabaseNew = openHelper.getWritableDatabase(); // DB open
+    }
+    public void createDatabase(){
+        openHelper = new DBOpenHelper(mContext, "student.db", null, 1); // DB생성
+        mDatabase = openHelper.getWritableDatabase(); // DB open
+    }
+
+    public long insertData(String prdTitle, String prdDescription){
+        mDatabase = openHelper.getWritableDatabase();
+        long insertResult = 0;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_1, prdTitle);
+        contentValues.put(COL_2, prdDescription);
+
+        insertResult = mDatabase.insert(tableName, null, contentValues);
+        return insertResult;
+    }
+
+    public Cursor selectDataAll(){
+        String sql = "SELECT * FROM " + tableName;
+        return mDatabase.rawQuery(sql, null);
+    }
+
+    public int selectDataCount(){
+        String sql = "SELECT count(*) FROM " + tableName;
+        mDatabase = openHelper.getWritableDatabase();
+
+        Cursor c = mDatabase.rawQuery(sql, null);
+        c.moveToFirst();
+        return c.getInt(0);
+    }
+
+    /*public String updateData(){ // eztalky.db 생성 메소드
         String updateResult = null;
         String dbFilePath = mContext.getFilesDir().getAbsolutePath()+"/eztalky.db";// mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath() + "/eztalky.db";
-        Log.d("KKKK", "dbFilePath : " + dbFilePath);
+//        Log.d("KKKK", "dbFilePath : " + dbFilePath);
         File dbFile = new File(dbFilePath);
 
         if(!dbFile.isFile()){ // 기존 DB 파일 존재 안 함
@@ -102,39 +136,7 @@ public class ServiceController {
         }
 
         return updateResult;
-    }
+    }*/
 
-    public Cursor selectDataAll(){
-        String sql = "SELECT * FROM domain";
-        Cursor c = mDatabase_ez.rawQuery(sql, null);
 
-        return c;
-    }
-
-    public int selectDataCount(){
-        Log.d(TAG, "selectDataCount()");
-        int count = 0;
-
-        String sql = "SELECT count(*) FROM domain";
-
-        openHelper = new DBOpenHelper(mContext, "eztalky.db", null, 1); // DB 객체 불러옴 생성
-        mDatabase_ez = openHelper.getWritableDatabase();
-
-        Cursor c = null;
-        if(mDatabase_ez==null){
-            Log.d("KKKK", "mDatabase_ez null");
-            return 0;
-        }
-        try{
-            c = mDatabase_ez.rawQuery(sql, null);
-        } catch (Exception e){
-            Log.d(TAG, e.getMessage());
-        }
-
-        c.moveToFirst();
-//        count = c.getCount();
-        count = c.getInt(0);
-        c.close();
-        return count;
-    }
 }

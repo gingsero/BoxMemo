@@ -19,7 +19,19 @@ public class IntroActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-        dbCallBack = new CallBackInterface(){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(IntroActivity.this, MainFragmentActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+
+        Handler handler = new Handler();
+        handler.postDelayed(runnable, 3000); // Go to MainActivity after 3 seconds
+
+        /*dbCallBack = new CallBackInterface(){
             @Override
             public void callback() {
                 Runnable runnable = new Runnable() {
@@ -36,13 +48,13 @@ public class IntroActivity extends Activity {
             }
         };
 
-        initializeDb(dbCallBack);
+        initializeDb(dbCallBack);*/
 
     }
 
     private void initializeDb(CallBackInterface callBackInterface){
         MyLog.d(TAG, "initializeDb()");
         ServiceController serviceController = new ServiceController(this);
-        serviceController.initializeDb(callBackInterface);
+        serviceController.initializeDb();
     }
 }
