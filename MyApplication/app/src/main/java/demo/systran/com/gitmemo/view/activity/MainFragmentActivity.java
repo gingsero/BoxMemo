@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import demo.systran.com.gitmemo.R;
 import demo.systran.com.gitmemo.view.fragment.ABestFragment;
 import demo.systran.com.gitmemo.view.fragment.AdminFragment;
+import demo.systran.com.gitmemo.view.fragment.UserDbFragment;
 
 public class MainFragmentActivity extends FragmentActivity {
     private String TAG= "MainFragmentActivity";
@@ -56,7 +57,8 @@ public class MainFragmentActivity extends FragmentActivity {
                     transaction.replace(R.id.frame_layout, fragment, "ADMIN");
                     break;
                 case R.id.fragment_button_three :
-
+                    fragment = new UserDbFragment();
+                    transaction.replace(R.id.frame_layout, fragment, "USERDB");
                     break;
             }
 

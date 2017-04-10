@@ -1,0 +1,127 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context="demo.systran.com.gitmemo.view.fragment.UserDbFragment">
+
+    <ScrollView
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <Button
+                android:id="@+id/fragment_user_delete_all_db"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DEL all db"
+                />
+            <Button
+                android:id="@+id/fragment_user_delete_all_table_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DEL data"
+                />
+            <Button
+                android:id="@+id/fragment_user_create_db"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CR db"
+                />
+            <Button
+                android:id="@+id/fragment_user_trans_db"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MV &amp; CP DB"
+                android:ellipsize="marquee"
+                />
+
+            <Button
+                android:id="@+id/fragment_user_select_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SELECT ALL"
+                />
+            <Button
+                android:id="@+id/fragment_user_select_cnt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SELECT CNT"
+                />
+            <Button
+                android:id="@+id/fragment_user_insert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="INSERT"
+                />
+            <Button
+                android:id="@+id/fragment_user_something2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="......"
+                />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        >
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/fragment_db_name_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/database_items"
+            >
+
+
+        </android.support.v7.widget.AppCompatSpinner>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="이름"
+            android:textSize="30px"
+            android:textStyle="bold"
+            tools:text="이름" />
+        <EditText
+            android:id="@+id/fragment_user_data_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="학번"
+            android:textSize="30px"
+            android:textStyle="bold"
+            tools:text="학번" />
+        <EditText
+            android:id="@+id/fragment_user_data_class"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/fragment_user_select_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+
+            />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

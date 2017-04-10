@@ -8,5 +8,10 @@
         <item>간절기 통 면팬츠</item>
     </array>
 
+    <array name="database_items">
+        <item>student.db</item>
+        <item>student_tmp.db</item>
+    </array>
+
 
 </resources>

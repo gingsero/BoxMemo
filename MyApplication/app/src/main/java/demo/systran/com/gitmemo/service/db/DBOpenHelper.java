@@ -22,7 +22,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "onCreate()");
-        Log.d("KKKK", "4");
         db.execSQL("CREATE TABLE " + tableName + "(ename text not null, eclass text);");
     }
 
@@ -34,10 +33,11 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             Log.d(TAG, "oldVersion==newVersion : true");
         } else {
             Log.d(TAG, "oldVersion==newVersion : false");
+            db.execSQL("DROP TABLE IF EXISTS " + tableName);
+            onCreate(db);
         }
 
-        db.execSQL("DROP TABLE IF EXISTS bestproduct");
-        onCreate(db);
+
     }
 
 
