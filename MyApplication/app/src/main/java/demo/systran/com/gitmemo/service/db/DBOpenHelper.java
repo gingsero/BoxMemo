@@ -11,7 +11,7 @@ import android.util.Log;
 //DB 생성 및 Upgrade만 관리
 public class DBOpenHelper extends SQLiteOpenHelper {
     private String TAG = "DBOpenHelper";
-    private final String tableName = "elementarystudent";
+    private final String tableName = "classA";
     private Context mContext = null;
 
     public DBOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

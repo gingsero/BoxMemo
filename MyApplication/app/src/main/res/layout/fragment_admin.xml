@@ -99,10 +99,11 @@
         android:id="@+id/bottom_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        >
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
         <TextView
             android:id="@+id/fragment_admin_db_result"
             android:layout_width="match_parent"
@@ -119,16 +120,16 @@
                 android:text="NEW DB"
                 />
             <Button
-                android:id="@+id/fragment_admin_db_new2"
+                android:id="@+id/fragment_admin_db_drop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="....."
+                android:text="Drop DB"
                 />
             <Button
-                android:id="@+id/fragment_admin_db_new3"
+                android:id="@+id/fragment_admin_db_trans"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="....."
+                android:text="Move DB"
                 />
             <Button
                 android:id="@+id/fragment_admin_db_new4"

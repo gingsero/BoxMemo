@@ -47,8 +47,8 @@ public class AdminFragment extends Fragment {
     private SharedPreferenceData mSharedPreference;
 
     private Button new_db_button = null;
-//    private Button update_button = null;
-//    private Button select_button = null;
+    private Button drop_db_button = null;
+    private Button move_db_button = null;
 //    private Button cnt_button = null;
 
     private Button insert_button = null;
@@ -128,6 +128,8 @@ public class AdminFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_admin, container, false);
 
         new_db_button = (Button) v.findViewById(R.id.fragment_admin_db_new);
+        drop_db_button = (Button) v.findViewById(R.id.fragment_admin_db_drop);
+        move_db_button = (Button) v.findViewById(R.id.fragment_admin_db_trans);
 
         insert_button = (Button) v.findViewById(R.id.fragment_admin_db_insert_button);
         update_button = (Button) v.findViewById(R.id.fragment_admin_db_update_button);
@@ -147,6 +149,8 @@ public class AdminFragment extends Fragment {
 
 
         new_db_button.setOnClickListener(mClickListener);
+        drop_db_button.setOnClickListener(mClickListener);
+        move_db_button.setOnClickListener(mClickListener);
         load_button.setOnClickListener(mClickListener);
         save_button.setOnClickListener(mClickListener);
         cancel_button.setOnClickListener(mClickListener);
@@ -251,28 +255,45 @@ public class AdminFragment extends Fragment {
                     Toast.makeText(getContext(), "작성된 내용을 모두 삭제하였습니다.", Toast.LENGTH_SHORT).show();
                     break;
 
-
 //              =========================================
-                case R.id.fragment_admin_db_new :
-//                    serviceController.createDatabaseNew();
-//                    Toast.makeText(getContext(), "student_tmp.db & elementarystudent table이 생성되었습니다.", Toast.LENGTH_SHORT).show();
-                    break;
-
-
-                case R.id.fragment_admin_db_insert_button:
+                case R.id.fragment_admin_db_new : //
                     serviceController.createDatabase();
                     serviceController.createDatabaseNew();
-                    Toast.makeText(getContext(), "student.db & student_tmp.db이 생성되었습니다.", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "student_tmp.db & elementarystudent table이 생성되었습니다.", Toast.LENGTH_SHORT).show();
+//                    mContext.deleteDatabase("student.db");
+//                    mContext.deleteDatabase("student_tmp.db");
+                    break;
+                case R.id.fragment_admin_db_drop : //
+                    mContext.deleteDatabase("student.db");
+                    mContext.deleteDatabase("student_tmp.db");
+                    break;
+                case R.id.fragment_admin_db_trans :
+                    Cursor newDbCursor = serviceController.moveDatabase(); // data copy from select
+                    while (newDbCursor.moveToNext()){ //
+//                        ContentValues contentValues = new ContentValues();
+//                        contentValues.put();
+                        Log.d(TAG, "move DB : " + newDbCursor.getString(0) + ", " + newDbCursor.getString(1));
+                        long insertResult = serviceController.insertData(newDbCursor.getString(0), newDbCursor.getString(1));
+                        Log.d(TAG, "insertResult : " + insertResult);
+                    }
+//                    mContext.deleteDatabase("stuent_tmp.db");
+
+                    break;
+
+                case R.id.fragment_admin_db_insert_button:
+//                    serviceController.createDatabase();
+//                    serviceController.createDatabaseNew();
+//                    Toast.makeText(getContext(), "student.db & student_tmp.db이 생성되었습니다.", Toast.LENGTH_SHORT).show();
                     break;
 
                 case R.id.fragment_admin_db_update_button:
                     String prdTitle = title_editbox.getText().toString();
                     String prdDescription = desc_editbox.getText().toString();
                     long insertResult = serviceController.insertData(prdTitle, prdDescription);
-                    if(insertResult==0){
-                        Toast.makeText(mContext, "insertData Success", Toast.LENGTH_SHORT).show();
-                    } else {
+                    if(insertResult==-1){
                         Toast.makeText(mContext, "Fail", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(mContext, "insertData Success", Toast.LENGTH_SHORT).show();
                     }
                     break;
 
