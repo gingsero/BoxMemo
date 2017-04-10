@@ -69,25 +69,17 @@ public class ServiceController {
         mDatabaseNew = openHelper2.getWritableDatabase(); // DB open
     }
 
-
-
     public void deleteDatabase(){
         mContext.deleteDatabase("student.db");
         mContext.deleteDatabase("student_tmp.db");
     }
 
     public void deleteTableData(String databaseName){
-//        openHelper = new DBOpenHelper(mContext, databaseName, null, 1); // DB생성
-
         if(databaseName.equals("student.db")){
-//            mDatabase = openHelper.getWritableDatabase(); // DB open
             mDatabase.execSQL("DELETE FROM " + tableName);
         } else {
-//            mDatabaseNew = openHelper.getWritableDatabase(); // DB open
             mDatabaseNew.execSQL("DELETE FROM " + tableName);
         }
-
-
     }
 
     public void createDatabase(String databaseName){
@@ -96,23 +88,11 @@ public class ServiceController {
     }
 
     public Cursor moveDatabase(){
-//        openHelper = new DBOpenHelper(mContext, "student.db", null, 1); // DB생성
-//        mDatabase = openHelper.getWritableDatabase(); // DB open
-//        openHelper = new DBOpenHelper(mContext, "student_tmp.db", null, 1); // DB생성
-//        mDatabaseNew = openHelper.getWritableDatabase(); // DB open
-
-
         mDatabase.execSQL("DELETE FROM " + tableName); // student.db에서 classA 테이블 데이터 전체 삭제
-
         return mDatabaseNew.rawQuery("SELECT * FROM " + tableName,  null);
     }
 
     public long insertData(String databaseName, String prdTitle, String prdDescription){
-//        openHelper = new DBOpenHelper(mContext, dbName, null, 1); // DB생성
-//        mDatabase = openHelper.getWritableDatabase();
-//        openHelper = new DBOpenHelper(mContext, dbName_new, null, 1); // DB생성
-//        mDatabaseNew = openHelper.getWritableDatabase();
-
         long insertResult = 0;
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1, prdTitle);
@@ -144,10 +124,8 @@ public class ServiceController {
         String sql = "SELECT count(*) FROM " + tableName;
         Cursor countCursor = null;
         if(databaseName.equals("student.db")){
-            //mDatabase = openHelper.getWritableDatabase();
             countCursor = mDatabase.rawQuery(sql, null);
         } else {
-            //mDatabaseNew = openHelper.getWritableDatabase();
             countCursor = mDatabaseNew.rawQuery(sql, null);
         }
         countCursor.moveToFirst();
