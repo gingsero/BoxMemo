@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -33,20 +35,33 @@ public class ServiceController {
     public ServiceController(Context context){
         this.mContext = context;
 
-        String db_path = mContext.getFilesDir().getAbsolutePath() + "/" + dbName; // System Area DB path
-        String db_path_new = mContext.getFilesDir().getAbsolutePath() + "/" + dbName_new; // System Area DB path
+//        String db_path = mContext.getFilesDir().getAbsolutePath() + "/" + dbName; // System Area DB path
+//        String db_path_new = mContext.getFilesDir().getAbsolutePath() + "/" + dbName_new; // System Area DB path
+
+        String db_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + dbName; // System Area DB path
+        String db_path_new = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + dbName_new; // System Area DB path
+
+        String state= Environment.getExternalStorageState(); //외부저장소(SDcard)의 상태 얻어오기
+        if(!state.equals(Environment.MEDIA_MOUNTED)){ // SDcard 의 상태가 쓰기 가능한 상태로 마운트되었는지 확인
+            Toast.makeText(mContext, "SDcard Not Mounted", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+//        String db_path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + dbName;
+//        String db_path_new = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + dbName_new;
         Log.d(TAG, "db_path : " + db_path);
         Log.d(TAG, "db_path_new : " + db_path_new);
+
         File file = new File(db_path);
 
         if(file.isFile()){ // DB 파일이 있으면
             if(mDatabase==null || !mDatabase.isOpen()) { // DB가 null인지, 열리지 않았는지 확인 후 열기
                 mDatabase = SQLiteDatabase.openDatabase(db_path, null, SQLiteDatabase.OPEN_READWRITE | SQLiteDatabase.NO_LOCALIZED_COLLATORS); // openDatabase()는 해당 경로에 파일이 있을때만 사용가능
             } else { // null이 아니거나 열려 있는 상태면 DB 초기화
-                initializeDb();
+                initializeDb(db_path, db_path_new);
             }
         } else { // DB 파일이 없으면 새로 생성
-            initializeDb();
+            initializeDb(db_path, db_path_new);
         }
 
         file = new File(db_path_new);
@@ -54,18 +69,18 @@ public class ServiceController {
             if(mDatabase==null || !mDatabase.isOpen()) { // DB가 null인지, 열리지 않았는지 확인 후
                 mDatabaseNew = SQLiteDatabase.openDatabase(db_path_new, null, SQLiteDatabase.OPEN_READWRITE | SQLiteDatabase.NO_LOCALIZED_COLLATORS);
             } else {
-                initializeDb();
+                initializeDb(db_path, db_path_new);
             }
         } else {
-            initializeDb();
+            initializeDb(db_path, db_path_new);
         }
     }
 
-    public void initializeDb(){ // 최초 한번만 실행
-        openHelper = new DBOpenHelper(mContext, dbName, null, 1); // DB생성
+    public void initializeDb(String firstDb, String secondDb){ // 최초 한번만 실행
+        openHelper = new DBOpenHelper(mContext, firstDb, null, 1); // DB생성
         mDatabase = openHelper.getWritableDatabase(); // DB open
 
-        openHelper2 = new DBOpenHelper(mContext, dbName_new, null, 1); // DB생성
+        openHelper2 = new DBOpenHelper(mContext, secondDb, null, 1); // DB생성
         mDatabaseNew = openHelper2.getWritableDatabase(); // DB open
     }
 

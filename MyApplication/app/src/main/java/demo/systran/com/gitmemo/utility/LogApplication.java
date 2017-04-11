@@ -23,14 +23,13 @@ public class LogApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        MyLog.d("EzTalkyApplication Start");
         this.DEBUG = isDebuggable(this);
     }
 
     @Override
     public void onTerminate(){
         super.onTerminate();
-        MyLog.d("EzTalkyApplication Finish");
+        MyLog.d("App Finish");
     }
 
     /**
@@ -41,7 +40,6 @@ public class LogApplication extends Application {
      */
     private boolean isDebuggable(Context context) {
         boolean debuggable = false;
-
         PackageManager pm = context.getPackageManager();
         try {
             ApplicationInfo appinfo = pm.getApplicationInfo(context.getPackageName(), 0);

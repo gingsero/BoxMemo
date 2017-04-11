@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class MyLog {
 
-    static final String TAG = "EzTalky Suwon";
+    static final String TAG = "MyApplication";
 
 
     /** MyLog Level Error **/

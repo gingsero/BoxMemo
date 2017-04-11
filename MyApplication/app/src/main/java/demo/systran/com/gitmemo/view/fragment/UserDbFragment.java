@@ -141,7 +141,7 @@ public class UserDbFragment extends Fragment {
         somethingButton2.setOnClickListener(mOnClickListener);
 
 
-        serviceController.initializeDb();
+//        serviceController.initializeDb();
         
         return v;
     }
